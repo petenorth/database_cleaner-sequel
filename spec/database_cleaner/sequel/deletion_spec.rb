@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'database_cleaner/sequel/deletion'
 require 'database_cleaner/shared_strategy'
 require 'sequel'
-require 'support/active_record/database_setup'
+require 'support/sequel/database_setup'
 
 module DatabaseCleaner
   module Sequel

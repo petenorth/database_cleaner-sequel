@@ -12,11 +12,6 @@ Feature: multiple database cleaning
 
   Examples:
   | ORM          | Strategy      |
-  | ActiveRecord | truncation    |
-  | ActiveRecord | deletion      |
-  | DataMapper   | truncation    |
   | Sequel       | truncation    |
-  | MongoMapper  | truncation    |
-  | DataMapper   | transaction   |
-  | ActiveRecord | transaction   |
   | Sequel       | transaction   |
+  | Sequel       | deletion      |

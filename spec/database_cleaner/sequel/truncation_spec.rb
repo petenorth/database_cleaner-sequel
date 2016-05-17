@@ -4,7 +4,7 @@ require 'database_cleaner/shared_strategy'
 require 'sequel'
 
 # XXX: use ActiveRecord's db_config (`db/config.yml`) for CI/dev convenience
-require 'support/active_record/database_setup'
+require 'support/sequel/database_setup'
 
 module DatabaseCleaner
   module Sequel
