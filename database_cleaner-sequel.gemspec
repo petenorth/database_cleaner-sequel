@@ -2,15 +2,15 @@ require 'yaml'
 version = YAML.load_file 'VERSION.yml'
 
 Gem::Specification.new do |s|
-  s.name = "database_cleaner"
+  s.name = "database_cleaner-sequel"
   s.version = "#{version[:major]}.#{version[:minor]}.#{version[:patch]}"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.required_ruby_version = ">= 1.9.3"
   s.require_paths = ["lib"]
-  s.authors = ["Ben Mabey"]
-  s.description = "Strategies for cleaning databases. Can be used to ensure a clean state for testing."
-  s.email = "ben@benmabey.com"
+  s.authors = ["Ernesto Tagwerker"]
+  s.description = "Strategies for cleaning databases with Sequel. Can be used to ensure a clean state for testing."
+  s.email = "ernesto@ombulabs.com"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.markdown",
@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.files += Dir['examples/**/*'] + Dir['features/**/*'] + Dir['lib/**/*.rb'] +
              Dir['spec/**/*']
 
-  s.homepage = "http://github.com/DatabaseCleaner/database_cleaner"
+  s.homepage = "http://github.com/DatabaseCleaner/database_cleaner-sequel"
   s.license = 'MIT'
 
   s.rubygems_version = "2.4.5"
@@ -36,21 +36,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake"
   s.add_development_dependency "bundler"
-  s.add_development_dependency "json_pure"
-  s.add_development_dependency "activerecord-mysql2-adapter" unless RUBY_PLATFORM =~ /java/
-  s.add_development_dependency "activerecord"
-  s.add_development_dependency "datamapper"
-  s.add_development_dependency "dm-migrations"
-  s.add_development_dependency "dm-sqlite-adapter"
-  s.add_development_dependency "mongoid"
-  s.add_development_dependency "tzinfo"
-  s.add_development_dependency "mongoid-tree"
-  s.add_development_dependency "mongo_mapper"
-  s.add_development_dependency "moped"
-  s.add_development_dependency "neo4j-core"
-  s.add_development_dependency "couch_potato"
   s.add_development_dependency "sequel", "~> 3.21.0"
-  s.add_development_dependency 'ohm', '~> 0.1.3'
   s.add_development_dependency 'guard-rspec'
   s.add_development_dependency "rspec-rails", "~> 2.14.2"
   s.add_development_dependency "cucumber"
