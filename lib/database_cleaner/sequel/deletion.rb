@@ -5,8 +5,11 @@ require 'database_cleaner/sequel/truncation'
 module DatabaseCleaner::Sequel
   class Deletion < Truncation
     def disable_referential_integrity(tables)
+      
+      puts 'here'
 
       if ENV['DB_CLEANER_AZURE'] == 'true'
+        puts '1'
         return
       end
 
@@ -40,9 +43,9 @@ module DatabaseCleaner::Sequel
 
     def clean
       return unless dirty?
-
+      puts '2'
       if ENV['DB_CLEANER_AZURE'] == 'true'
-      
+        puts '3'
         records_array = ActiveRecord::Base.connection.execute %{
 WITH RECURSIVE t AS (
     SELECT relnamespace as nsp, oid as tbl, null::regclass as source, 1 as level
