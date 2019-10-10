@@ -5,6 +5,11 @@ require 'database_cleaner/sequel/truncation'
 module DatabaseCleaner::Sequel
   class Deletion < Truncation
     def disable_referential_integrity(tables)
+
+      if ENV['DB_CLEANER_AZURE'] == 'true'
+        return
+      end
+
       case db.database_type
       when :postgres
         db.run('SET CONSTRAINTS ALL DEFERRED')
@@ -36,7 +41,36 @@ module DatabaseCleaner::Sequel
     def clean
       return unless dirty?
 
-      tables = tables_to_truncate(db)
+      if ENV['DB_CLEANER_AZURE'] == 'true'
+      
+        records_array = ActiveRecord::Base.connection.execute %{
+WITH RECURSIVE t AS (
+    SELECT relnamespace as nsp, oid as tbl, null::regclass as source, 1 as level
+    FROM pg_class
+    WHERE relkind = 'r'
+        AND relnamespace not in ('pg_catalog'::regnamespace, 'information_schema'::regnamespace)
+UNION ALL
+    SELECT c.connamespace as nsp, c.conrelid as tbl, c.confrelid as source, p.level + 1
+    FROM pg_constraint c
+    INNER JOIN t p ON (c.confrelid = p.tbl AND c.connamespace = p.nsp)
+    WHERE c.contype = 'f'
+        AND c.connamespace not in ('pg_catalog'::regnamespace, 'information_schema'::regnamespace)
+)
+SELECT tbl::regclass
+FROM t
+GROUP BY nsp, tbl
+ORDER BY max(level) DESC;
+        }
+       
+        tables = records_array.column_values(0)
+        tables.each {|st| puts st}
+
+      else
+
+        tables = tables_to_truncate(db)       
+ 
+      end
+
       db.transaction do
         disable_referential_integrity(tables) do
           delete_tables(db, tables)
